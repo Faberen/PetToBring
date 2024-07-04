@@ -99,6 +99,39 @@ for _, specName in ipairs(specs) do
         end
 end
 
+function containsAny(table, required_specs)
+    for _, item in ipairs(table) do
+        for _, spec in ipairs(required_specs) do
+            if item == spec then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+local calcbutton = CreateFrame("Button", nil, mainFrame, "UIPanelButtonTemplate")
+calcbutton:SetPoint("BOTTOM", mainFrame, "BOTTOM", 0, 10)
+calcbutton:SetSize(100, 40)
+calcbutton:SetText("Find pet")
+calcbutton:SetScript("OnClick", function(self, button, down)
+	if not containsAny(selectedSpecs, {"Protection Warrior", "Feral Tank"}) then
+        print("Serpent or Raptor")
+    elseif not containsAny(selectedSpecs, {"Fury", "Elemental", "Subtlety", "Feral DPS"}) then
+        print("Wolf or Devilsaur")
+    elseif not containsAny(selectedSpecs, {"Arms", "Combat", "Frost DK"}) then
+        print("Ravager")
+    elseif not containsAny(selectedSpecs, {"Assassination", "Unholy DK", "Balance", "Affliction", "Demonology", "Destruction"}) then
+        print("Wind Serpent or DragonHawk")
+    elseif not containsAny(selectedSpecs, {"Arms", "Fury", "Protection Warrior", "Enhancement", "Unholy DK", "Frost DK", "Blood DK"}) then
+        print("Cat or spiritbeasts")
+    elseif not containsAny(selectedSpecs, {"Arms", "Feral DPS", "Subtlety"}) then
+        print("Hyena")
+    else
+        print("Bring Whatever You want")
+    end
+end)
+
 local eventListenerFrame = CreateFrame("Frame", "MyAddonEventListenerFrame", UIParent)
 
 local function eventHandler(self, event, ...)

@@ -6,6 +6,6 @@
 ## RequiredDeps:
 ## X-Curse-Project-ID: 999999
 ## SavedVariables:
-## SavedVariablesPerCharacter:
+## SavedVariablesPerCharacter: MyAddonDB
 
 PetToBring.lua

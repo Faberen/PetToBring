@@ -1,4 +1,7 @@
 print("MyAddon successfully loaded!")
+if not MyAddonDB then 
+    MyAddonDB = {}
+end
 
 -- Create the main frame
 local mainFrame = CreateFrame("Frame", "MyAddonMainFrame", UIParent, "BasicFrameTemplateWithInset")
@@ -47,3 +50,15 @@ SlashCmdList["PETTOBRING"] = function()
         mainFrame:Show()
     end
 end
+
+
+local eventListenerFrame = CreateFrame("Frame", "MyAddonEventListenerFrame", UIParent)
+
+local function eventHandler(self, event, ...)
+    if event == "PLAYER_REGEN_DISABLED" then
+        mainFrame:Hide()
+    end
+end
+
+eventListenerFrame:SetScript("OnEvent", eventHandler)
+eventListenerFrame:RegisterEvent("PLAYER_REGEN_DISABLED")

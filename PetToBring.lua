@@ -51,6 +51,20 @@ SlashCmdList["PETTOBRING"] = function()
     end
 end
 
+-- Specializations
+local specs = {
+    "Blood DK", "Frost DK", "Unholy DK",
+    "Balance Druid", "Feral DPS", "Feral Tank", "Restoration Druid",
+    "Beast Mastery Hunter", "Marksmanship Hunter", "Survival Hunter",
+    "Arcane Mage", "Fire Mage", "Frost Mage",
+    "Holy Paladin", "Protection Paladin", "Retribution Paladin",
+    "Discipline Priest", "Holy Priest", "Shadow Priest",
+    "Assassination Rogue", "Combat Rogue", "Subtlety Rogue",
+    "Elemental Shaman", "Enhancement Shaman", "Restoration Shaman",
+    "Affliction Warlock", "Demonology Warlock", "Destruction Warlock",
+    "Arms Warrior", "Fury Warrior", "Protection Warrior"
+}
+
 
 local eventListenerFrame = CreateFrame("Frame", "MyAddonEventListenerFrame", UIParent)
 

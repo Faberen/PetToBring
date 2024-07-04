@@ -74,12 +74,23 @@ end
 
 local xcord = 10
 local ycord = -35
+local selectedSpecs = {}
 
 for _, specName in ipairs(specs) do
     local myCheckButton = createCheckButton(mainFrame, xcord, ycord, specName);
         myCheckButton.tooltip = specName;
         myCheckButton:HookScript("OnClick", function()
-            print("you selected " .. specName)
+            if myCheckButton:GetChecked() then
+                print("you selected " .. specName)
+                table.insert(selectedSpecs,specName)
+            else 
+                print("you removed " .. specName)
+                for i, v in ipairs (selectedSpecs) do
+                    if v == specName then
+                        table.remove(selectedSpecs,i)
+                    end
+                end
+            end
         end);
         xcord = xcord + 125  -- Adjust x position for next button
         if xcord > 400 then

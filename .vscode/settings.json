@@ -4,6 +4,6 @@
         "UISpecialFrames",
         "ReloadUI",
         "NUM_CHAT_WINDOWS",
-        "FrameStackTooltip_Toggle"
+        "FrameStackTooltip_Toggle",
     ]
 }

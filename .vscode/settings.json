@@ -1,6 +1,9 @@
 {
     "Lua.diagnostics.globals": [
         "SlashCmdList",
-        "UISpecialFrames"
+        "UISpecialFrames",
+        "ReloadUI",
+        "NUM_CHAT_WINDOWS",
+        "FrameStackTooltip_Toggle"
     ]
 }

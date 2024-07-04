@@ -5,7 +5,7 @@ end
 
 -- Create the main frame
 local mainFrame = CreateFrame("Frame", "MyAddonMainFrame", UIParent, "BasicFrameTemplateWithInset")
-mainFrame:SetSize(500, 350)
+mainFrame:SetSize(550, 420)
 mainFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
 
 -- Customize the title background
@@ -54,17 +54,39 @@ end
 -- Specializations
 local specs = {
     "Blood DK", "Frost DK", "Unholy DK",
-    "Balance Druid", "Feral DPS", "Feral Tank", "Restoration Druid",
-    "Beast Mastery Hunter", "Marksmanship Hunter", "Survival Hunter",
+    "Balance", "Feral DPS", "Feral Tank", "Resto Druid",
+    "Beast Mastery", "Marksmanship", "Survival",
     "Arcane Mage", "Fire Mage", "Frost Mage",
-    "Holy Paladin", "Protection Paladin", "Retribution Paladin",
-    "Discipline Priest", "Holy Priest", "Shadow Priest",
-    "Assassination Rogue", "Combat Rogue", "Subtlety Rogue",
-    "Elemental Shaman", "Enhancement Shaman", "Restoration Shaman",
-    "Affliction Warlock", "Demonology Warlock", "Destruction Warlock",
-    "Arms Warrior", "Fury Warrior", "Protection Warrior"
+    "Holy Paladin", "Protection Paladin", "Retribution",
+    "Discipline ", "Holy Priest", "Shadow Priest",
+    "Assassination", "Combat", "Subtlety",
+    "Elemental", "Enhancement", "Resto Shaman",
+    "Affliction", "Demonology", "Destruction",
+    "Arms", "Fury", "Protection Warrior"
 }
+-- checkbtns
+local function createCheckButton(parent, xOff, yOff, text)
+    local checkButton = CreateFrame("CheckButton", nil, parent, "ChatConfigCheckButtonTemplate")
+        checkButton:SetPoint("TOPLEFT",mainFrame.TitleBg, "BOTTOMLEFT", xOff,yOff)
+        checkButton.Text:SetText(text)
+        return checkButton;
+end
 
+local xcord = 10
+local ycord = -35
+
+for _, specName in ipairs(specs) do
+    local myCheckButton = createCheckButton(mainFrame, xcord, ycord, specName);
+        myCheckButton.tooltip = specName;
+        myCheckButton:HookScript("OnClick", function()
+            print("you selected " .. specName)
+        end);
+        xcord = xcord + 125  -- Adjust x position for next button
+        if xcord > 400 then
+            xcord = 15
+            ycord = ycord - 25  -- Adjust y position for next row
+        end
+end
 
 local eventListenerFrame = CreateFrame("Frame", "MyAddonEventListenerFrame", UIParent)
 

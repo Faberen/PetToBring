@@ -9,4 +9,3 @@
 ## SavedVariablesPerCharacter: MyAddonDB
 
 PetToBring.lua
-PetToBring.xml

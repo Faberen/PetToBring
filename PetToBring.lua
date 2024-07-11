@@ -125,17 +125,22 @@ local WowClasses = {
 local selectedSpecs = {}
 -- checkbtns
 local function createCheckButton(parent, xOff, yOff, spec, texture)
-    local checkButton = CreateFrame("CheckButton", nil, parent, "ChatConfigCheckButtonTemplate")
+    local checkButton = CreateFrame("CheckButton", nil, parent, "UIPanelButtonTemplate")
     checkButton:SetPoint("TOPLEFT", parent, "TOPLEFT", xOff, yOff)
-    print("Button was created at: ", xOff, yOff)
-    --checkButton.tooltip = text
+    checkButton:SetSize(26, 26)
+    checkButton.tooltip = spec
     local disabledTexture = checkButton:CreateTexture()
     disabledTexture:SetTexture(texture)
     disabledTexture:SetAllPoints()
     disabledTexture:SetVertexColor(0.3, 0.3, 0.3, 1) -- Make texture darker
+
+    local highlightTexture = checkButton:CreateTexture()
+    highlightTexture:SetTexture(texture)
+    highlightTexture:SetAllPoints()
+
     checkButton:SetNormalTexture(disabledTexture)
+    checkButton:SetHighlightTexture(highlightTexture)
     checkButton:SetCheckedTexture(texture)
-    checkButton:SetHighlightTexture(texture)
 
     checkButton:HookScript("OnClick", function()
         if checkButton:GetChecked() then

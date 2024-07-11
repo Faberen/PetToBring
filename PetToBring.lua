@@ -193,25 +193,38 @@ local function containsAny(table, required_specs)
     return false
 end
 
+local function ShowPopup(text)
+    StaticPopupDialogs["MY_CUSTOM_POPUP"] = {
+        text = text,
+        button1 = "OK",
+        OnAccept = function() end,
+        timeout = 0,
+        whileDead = true,
+        hideOnEscape = true,
+        preferredIndex = 3,
+    }
+    StaticPopup_Show("MY_CUSTOM_POPUP")
+end
+
 local calcbutton = CreateFrame("Button", nil, mainFrame, "UIPanelButtonTemplate")
 calcbutton:SetPoint("BOTTOM", mainFrame, "BOTTOM", 0, 10)
 calcbutton:SetSize(100, 40)
 calcbutton:SetText("Find pet")
 calcbutton:SetScript("OnClick", function(self, button, down)
     if not containsAny(selectedSpecs, { "Protection Warrior", "Guardian" }) then
-        print("Serpent or Raptor")
+        ShowPopup("Serpent or Raptor")
     elseif not containsAny(selectedSpecs, { "Fury", "Elemental", "Subtlety", "Feral" }) then
-        print("Wolf or Devilsaur")
+        ShowPopup("Wolf or Devilsaur")
     elseif not containsAny(selectedSpecs, { "Arms", "Combat", "Frost DK" }) then
-        print("Ravager")
+        ShowPopup("Ravager")
     elseif not containsAny(selectedSpecs, { "Assassination", "Unholy", "Balance", "Affliction", "Demonology", "Destruction" }) then
-        print("Wind Serpent or DragonHawk")
+        ShowPopup("Wind Serpent or DragonHawk")
     elseif not containsAny(selectedSpecs, { "Arms", "Fury", "Protection Warrior", "Enhancement", "Unholy", "Frost DK", "Blood" }) then
-        print("Cat or spiritbeasts")
+        ShowPopup("Cat or spiritbeasts")
     elseif not containsAny(selectedSpecs, { "Arms", "Feral", "Subtlety" }) then
-        print("Hyena")
+        ShowPopup("Hyena")
     else
-        print("Bring Whatever You want")
+        ShowPopup("Bring Whatever u want")
     end
 end)
 

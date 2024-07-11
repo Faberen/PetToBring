@@ -5,6 +5,9 @@
         "ReloadUI",
         "NUM_CHAT_WINDOWS",
         "FrameStackTooltip_Toggle",
-        "class"
+        "class",
+        "show",
+        "StaticPopupDialogs",
+        "StaticPopup_Show"
     ]
 }

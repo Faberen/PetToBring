@@ -129,9 +129,8 @@ local WowClasses = {
 local function createCheckButton(parent, xOff, yOff, text, texture)
     local checkButton = CreateFrame("CheckButton", nil, parent, "ChatConfigCheckButtonTemplate")
         checkButton:SetPoint("TOPLEFT",mainFrame.TitleBg, "BOTTOMLEFT", xOff,yOff)
-        checkButton.Text:SetText(text)
+        --checkButton.Text:SetText(text)
         checkButton.tooltip = text
-        print(texture)
         checkButton:SetNormalTexture(texture)
         checkButton:SetPushedTexture(texture)
         checkButton:SetHighlightTexture(texture)
@@ -144,17 +143,16 @@ local ycord = -35
 local selectedSpecs = {}
 
 for class, data in pairs(WowClasses) do
-    print(class)
+    local classLabel = mainFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    classLabel:SetPoint("TOPLEFT", xcord, ycord-15)  -- Adjust the position of your text label
+    classLabel:SetText(class)  -- Set the initial text of your label
     for _, spec in pairs(data.specs) do
-        print(spec.name)
     local myCheckButton = createCheckButton(mainFrame, xcord, ycord, spec.name,spec.icon);
         myCheckButton.tooltip = spec.name;
         myCheckButton:HookScript("OnClick", function()
             if myCheckButton:GetChecked() then
-                print("you selected " .. spec.name)
                 table.insert(selectedSpecs,spec.name)
             else 
-                print("you removed " .. spec.name)
                 for i, v in ipairs (selectedSpecs) do
                     if v == spec then
                         table.remove(selectedSpecs,i)
@@ -162,12 +160,10 @@ for class, data in pairs(WowClasses) do
                 end
             end
         end);
-        xcord = xcord + 125  -- Adjust x position for next button
-        if xcord > 400 then
-            xcord = 15
-            ycord = ycord - 25  -- Adjust y position for next row
-        end
+        xcord = xcord + 30
     end
+    xcord = 15
+    ycord = ycord - 45
 end
 
 function containsAny(table, required_specs)

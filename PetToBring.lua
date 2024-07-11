@@ -53,7 +53,7 @@ local WowClasses = {
     ["Death Knight"] = {
         specs = {
             { name = "Blood", icon = "Interface\\Icons\\Spell_Deathknight_BloodPresence" },
-            { name = "Frost", icon = "Interface\\Icons\\Spell_Deathknight_FrostPresence" },
+            { name = "Frost DK", icon = "Interface\\Icons\\Spell_Deathknight_FrostPresence" },
             { name = "Unholy", icon = "Interface\\Icons\\Spell_Deathknight_UnholyPresence" }
         }
     },
@@ -67,9 +67,9 @@ local WowClasses = {
     },
     ["Hunter"] = {
         specs = {
-            { name = "Beast Mastery", icon = "Interface\\Icons\\ability_hunter_besttaming" },
+            { name = "Beast Mastery", icon = "Interface\\Icons\\ability_hunter_beasttaming" },
             { name = "Marksmanship", icon = "Interface\\Icons\\ability_hunter_focusedaim" },
-            { name = "Survival", icon = "Interface\\Icons\\ability_hunter_swiftstrike" }
+            { name = "Survival", icon = "Interface\\Icons\\ability_hunter_camouflage" }
         }
     },
     ["Mage"] = {
@@ -83,7 +83,7 @@ local WowClasses = {
         specs = {
             { name = "Holy", icon = "Interface\\Icons\\spell_holy_holybolt" },
             { name = "Protection", icon = "Interface\\Icons\\ability_paladin_shieldofthetemplar" },
-            { name = "Retribution", icon = "Interface\\Icons\\spell_holy_aurasoflight" }
+            { name = "Retribution", icon = "Interface\\Icons\\spell_holy_auraoflight" }
         }
     },
     ["Priest"] = {
@@ -96,7 +96,7 @@ local WowClasses = {
     ["Rogue"] = {
         specs = {
             { name = "Assassination", icon = "Interface\\Icons\\ability_rogue_eviscerate" },
-            { name = "Outlaw", icon = "Interface\\Icons\\inv_sword_30" },
+            { name = "Combat", icon = "Interface\\Icons\\inv_sword_30" },
             { name = "Subtlety", icon = "Interface\\Icons\\ability_stealth" }
         }
     },
@@ -118,7 +118,7 @@ local WowClasses = {
         specs = {
             { name = "Arms", icon = "Interface\\Icons\\ability_warrior_savageblow" },
             { name = "Fury", icon = "Interface\\Icons\\ability_warrior_innerrage" },
-            { name = "Protection", icon = "Interface\\Icons\\inv_shield_06" }
+            { name = "Protection Warrior", icon = "Interface\\Icons\\inv_shield_06" }
         }
     }
 }
@@ -128,10 +128,13 @@ local function createCheckButton(parent, xOff, yOff, text, texture)
         checkButton:SetPoint("TOPLEFT",mainFrame.TitleBg, "BOTTOMLEFT", xOff,yOff)
         print("Button was created at: ", xOff,yOff)
         checkButton.tooltip = text
-        checkButton:SetNormalTexture(texture)
-        checkButton:SetPushedTexture(texture)
+        local disabledTexture = checkButton:CreateTexture()
+        disabledTexture:SetTexture(texture)
+        disabledTexture:SetAllPoints()
+        disabledTexture:SetVertexColor(0.3, 0.3, 0.3, 1)  -- Make texture darker
+        checkButton:SetNormalTexture(disabledTexture)
+        checkButton:SetCheckedTexture(texture)
         checkButton:SetHighlightTexture(texture)
-        checkButton:SetDisabledTexture(texture)
         return checkButton;
 end
 
@@ -194,17 +197,17 @@ calcbutton:SetPoint("BOTTOM", mainFrame, "BOTTOM", 0, 10)
 calcbutton:SetSize(100, 40)
 calcbutton:SetText("Find pet")
 calcbutton:SetScript("OnClick", function(self, button, down)
-	if not containsAny(selectedSpecs, {"Protection Warrior", "Feral Tank"}) then
+	if not containsAny(selectedSpecs, {"Protection Warrior", "Guardian"}) then
         print("Serpent or Raptor")
-    elseif not containsAny(selectedSpecs, {"Fury", "Elemental", "Subtlety", "Feral DPS"}) then
+    elseif not containsAny(selectedSpecs, {"Fury", "Elemental", "Subtlety", "Feral"}) then
         print("Wolf or Devilsaur")
     elseif not containsAny(selectedSpecs, {"Arms", "Combat", "Frost DK"}) then
         print("Ravager")
-    elseif not containsAny(selectedSpecs, {"Assassination", "Unholy DK", "Balance", "Affliction", "Demonology", "Destruction"}) then
+    elseif not containsAny(selectedSpecs, {"Assassination", "Unholy", "Balance", "Affliction", "Demonology", "Destruction"}) then
         print("Wind Serpent or DragonHawk")
-    elseif not containsAny(selectedSpecs, {"Arms", "Fury", "Protection Warrior", "Enhancement", "Unholy DK", "Frost DK", "Blood DK"}) then
+    elseif not containsAny(selectedSpecs, {"Arms", "Fury", "Protection Warrior", "Enhancement", "Unholy", "Frost DK", "Blood"}) then
         print("Cat or spiritbeasts")
-    elseif not containsAny(selectedSpecs, {"Arms", "Feral DPS", "Subtlety"}) then
+    elseif not containsAny(selectedSpecs, {"Arms", "Feral", "Subtlety"}) then
         print("Hyena")
     else
         print("Bring Whatever You want")

@@ -5,7 +5,7 @@ end
 
 -- Create the main frame
 local mainFrame = CreateFrame("Frame", "MyAddonMainFrame", UIParent, "BasicFrameTemplateWithInset")
-mainFrame:SetSize(550, 420)
+mainFrame:SetSize(250, 350)
 mainFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
 
 -- Customize the title background
@@ -15,9 +15,6 @@ mainFrame.TitleBg:SetHeight(30)
 mainFrame.title = mainFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
 mainFrame.title:SetPoint("TOPLEFT", mainFrame.TitleBg, "TOPLEFT", 5, -3)
 mainFrame.title:SetText("PetToBring")
-mainFrame.playerName = mainFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-mainFrame.playerName:SetPoint("TOPLEFT", mainFrame, "TOPLEFT", 15, -35)
-mainFrame.playerName:SetText("Character: " .. UnitName("player") .. " (Level " .. UnitLevel("player") .. ")")
 mainFrame:Hide()
 table.insert(UISpecialFrames, "MyAddonMainFrame")
 
@@ -129,7 +126,7 @@ local WowClasses = {
 local function createCheckButton(parent, xOff, yOff, text, texture)
     local checkButton = CreateFrame("CheckButton", nil, parent, "ChatConfigCheckButtonTemplate")
         checkButton:SetPoint("TOPLEFT",mainFrame.TitleBg, "BOTTOMLEFT", xOff,yOff)
-        --checkButton.Text:SetText(text)
+        print("Button was created at: ", xOff,yOff)
         checkButton.tooltip = text
         checkButton:SetNormalTexture(texture)
         checkButton:SetPushedTexture(texture)
@@ -138,21 +135,26 @@ local function createCheckButton(parent, xOff, yOff, text, texture)
         return checkButton;
 end
 
-local xcord = 10
-local ycord = -35
+local xcord = 15
+local ycord = -20
+local no = 0
 local selectedSpecs = {}
 
 for class, data in pairs(WowClasses) do
+    print(no, " ", class)
+    no = no+1
     local classLabel = mainFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    classLabel:SetPoint("TOPLEFT", xcord, ycord-15)  -- Adjust the position of your text label
-    classLabel:SetText(class)  -- Set the initial text of your label
+    classLabel:SetPoint("TOPLEFT", xcord, ycord-15)
+    print("Setting label at: ", xcord, ycord-15)
+    classLabel:SetText(class)
     for _, spec in pairs(data.specs) do
     local myCheckButton = createCheckButton(mainFrame, xcord, ycord, spec.name,spec.icon);
+        print("creating checkbutton at: ", xcord, ycord)
         myCheckButton.tooltip = spec.name;
         myCheckButton:HookScript("OnClick", function()
             if myCheckButton:GetChecked() then
                 table.insert(selectedSpecs,spec.name)
-            else 
+            else
                 for i, v in ipairs (selectedSpecs) do
                     if v == spec then
                         table.remove(selectedSpecs,i)
@@ -162,8 +164,18 @@ for class, data in pairs(WowClasses) do
         end);
         xcord = xcord + 30
     end
-    xcord = 15
-    ycord = ycord - 45
+    --pls dont look at this it's an ugly way to make two columns 
+    --for the classes, 5 each
+    if no == 5 then
+        xcord = 115
+        ycord = -20
+    elseif no > 5 then
+        xcord = 115
+        ycord = ycord -50
+    else
+        xcord = 15
+        ycord = ycord - 50
+    end
 end
 
 function containsAny(table, required_specs)

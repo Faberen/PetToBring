@@ -52,23 +52,90 @@ SlashCmdList["PETTOBRING"] = function()
 end
 
 -- Specializations
-local specs = {
-    "Blood DK", "Frost DK", "Unholy DK",
-    "Balance", "Feral DPS", "Feral Tank", "Resto Druid",
-    "Beast Mastery", "Marksmanship", "Survival",
-    "Arcane Mage", "Fire Mage", "Frost Mage",
-    "Holy Paladin", "Protection Paladin", "Retribution",
-    "Discipline ", "Holy Priest", "Shadow Priest",
-    "Assassination", "Combat", "Subtlety",
-    "Elemental", "Enhancement", "Resto Shaman",
-    "Affliction", "Demonology", "Destruction",
-    "Arms", "Fury", "Protection Warrior"
+local WowClasses = {
+    ["Death Knight"] = {
+        specs = {
+            { name = "Blood", icon = "Interface\\Icons\\Spell_Deathknight_BloodPresence" },
+            { name = "Frost", icon = "Interface\\Icons\\Spell_Deathknight_FrostPresence" },
+            { name = "Unholy", icon = "Interface\\Icons\\Spell_Deathknight_UnholyPresence" }
+        }
+    },
+    ["Druid"] = {
+        specs = {
+            { name = "Balance", icon = "Interface\\Icons\\spell_nature_starfall" },
+            { name = "Feral", icon = "Interface\\Icons\\ability_druid_catform" },
+            { name = "Guardian", icon = "Interface\\Icons\\ability_racial_bearform" },
+            { name = "Restoration", icon = "Interface\\Icons\\spell_nature_healingtouch" }
+        }
+    },
+    ["Hunter"] = {
+        specs = {
+            { name = "Beast Mastery", icon = "Interface\\Icons\\ability_hunter_besttaming" },
+            { name = "Marksmanship", icon = "Interface\\Icons\\ability_hunter_focusedaim" },
+            { name = "Survival", icon = "Interface\\Icons\\ability_hunter_swiftstrike" }
+        }
+    },
+    ["Mage"] = {
+        specs = {
+            { name = "Arcane", icon = "Interface\\Icons\\spell_holy_magicalsentry" },
+            { name = "Fire", icon = "Interface\\Icons\\spell_fire_firebolt02" },
+            { name = "Frost", icon = "Interface\\Icons\\spell_frost_frostbolt02" }
+        }
+    },
+    ["Paladin"] = {
+        specs = {
+            { name = "Holy", icon = "Interface\\Icons\\spell_holy_holybolt" },
+            { name = "Protection", icon = "Interface\\Icons\\ability_paladin_shieldofthetemplar" },
+            { name = "Retribution", icon = "Interface\\Icons\\spell_holy_aurasoflight" }
+        }
+    },
+    ["Priest"] = {
+        specs = {
+            { name = "Discipline", icon = "Interface\\Icons\\spell_holy_wordfortitude" },
+            { name = "Holy", icon = "Interface\\Icons\\spell_holy_guardianspirit" },
+            { name = "Shadow", icon = "Interface\\Icons\\spell_shadow_shadowwordpain" }
+        }
+    },
+    ["Rogue"] = {
+        specs = {
+            { name = "Assassination", icon = "Interface\\Icons\\ability_rogue_eviscerate" },
+            { name = "Outlaw", icon = "Interface\\Icons\\inv_sword_30" },
+            { name = "Subtlety", icon = "Interface\\Icons\\ability_stealth" }
+        }
+    },
+    ["Shaman"] = {
+        specs = {
+            { name = "Elemental", icon = "Interface\\Icons\\spell_nature_lightning" },
+            { name = "Enhancement", icon = "Interface\\Icons\\spell_nature_lightningshield" },
+            { name = "Restoration", icon = "Interface\\Icons\\spell_nature_magicimmunity" }
+        }
+    },
+    ["Warlock"] = {
+        specs = {
+            { name = "Affliction", icon = "Interface\\Icons\\spell_shadow_deathcoil" },
+            { name = "Demonology", icon = "Interface\\Icons\\spell_shadow_metamorphosis" },
+            { name = "Destruction", icon = "Interface\\Icons\\spell_shadow_rainoffire" }
+        }
+    },
+    ["Warrior"] = {
+        specs = {
+            { name = "Arms", icon = "Interface\\Icons\\ability_warrior_savageblow" },
+            { name = "Fury", icon = "Interface\\Icons\\ability_warrior_innerrage" },
+            { name = "Protection", icon = "Interface\\Icons\\inv_shield_06" }
+        }
+    }
 }
 -- checkbtns
-local function createCheckButton(parent, xOff, yOff, text)
+local function createCheckButton(parent, xOff, yOff, text, texture)
     local checkButton = CreateFrame("CheckButton", nil, parent, "ChatConfigCheckButtonTemplate")
         checkButton:SetPoint("TOPLEFT",mainFrame.TitleBg, "BOTTOMLEFT", xOff,yOff)
         checkButton.Text:SetText(text)
+        checkButton.tooltip = text
+        print(texture)
+        checkButton:SetNormalTexture(texture)
+        checkButton:SetPushedTexture(texture)
+        checkButton:SetHighlightTexture(texture)
+        checkButton:SetDisabledTexture(texture)
         return checkButton;
 end
 
@@ -76,17 +143,20 @@ local xcord = 10
 local ycord = -35
 local selectedSpecs = {}
 
-for _, specName in ipairs(specs) do
-    local myCheckButton = createCheckButton(mainFrame, xcord, ycord, specName);
-        myCheckButton.tooltip = specName;
+for class, data in pairs(WowClasses) do
+    print(class)
+    for _, spec in pairs(data.specs) do
+        print(spec.name)
+    local myCheckButton = createCheckButton(mainFrame, xcord, ycord, spec.name,spec.icon);
+        myCheckButton.tooltip = spec.name;
         myCheckButton:HookScript("OnClick", function()
             if myCheckButton:GetChecked() then
-                print("you selected " .. specName)
-                table.insert(selectedSpecs,specName)
+                print("you selected " .. spec.name)
+                table.insert(selectedSpecs,spec.name)
             else 
-                print("you removed " .. specName)
+                print("you removed " .. spec.name)
                 for i, v in ipairs (selectedSpecs) do
-                    if v == specName then
+                    if v == spec then
                         table.remove(selectedSpecs,i)
                     end
                 end
@@ -97,6 +167,7 @@ for _, specName in ipairs(specs) do
             xcord = 15
             ycord = ycord - 25  -- Adjust y position for next row
         end
+    end
 end
 
 function containsAny(table, required_specs)
